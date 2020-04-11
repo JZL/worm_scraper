@@ -5,10 +5,10 @@ function scrape {
 	echo "scraping " $1
 	ruby serial_scrape.rb -s $1 > ${1}.html
 	ebook-convert ${1}.html ${1}.mobi --authors "John McCrae" --title "${1}" --max-toc-links 500
-	rm ${1}.html
+	# rm ${1}.html
 }
 
-while getopts ":ahptwr" opt; do
+while getopts ":ahptwrn" opt; do
 	case $opt in
 		w) scrape "worm"
 		   exit 
@@ -22,10 +22,14 @@ while getopts ":ahptwr" opt; do
     r) scrape "ward"
        exit
     ;;
+		n) scrape "wandering"
+		   exit 
+		   ;;
 		a) scrape "worm"
 		   scrape "pact"
 		   scrape "twig"
        scrape "ward"
+       scrape "wandering"
 		   exit
 		;;
 

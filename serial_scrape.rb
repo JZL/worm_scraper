@@ -10,7 +10,9 @@ require 'uri'
 @worm_url="https://parahumans.wordpress.com/2011/06/11/1-1/"
 @ward_url="https://www.parahumans.net/2017/10/21/glow-worm-0-1/"
 
-story = { "pact" => @pact_url, "twig" => @twig_url, "worm" => @worm_url, "ward" => @ward_url}
+@wandering_url="https://wanderinginn.com/2016/07/27/1-00/"
+
+story = { "pact" => @pact_url, "twig" => @twig_url, "worm" => @worm_url, "ward" => @ward_url, "wandering" => @wandering_url}
 
 options = []
 OptionParser.new do |opts|
@@ -21,7 +23,7 @@ OptionParser.new do |opts|
 	end
 
 	opts.on("-a", "select all") do 
-		options = ["worm", "pact", "twig", "ward"]
+		options = ["worm", "pact", "twig", "ward", "wandering"]
 	end
 end.parse!
 
@@ -58,8 +60,8 @@ def write_story(starting_chapter)
     @toc << "<a href=\"#chap#{@index.to_s}\">#{@chapter_title_plain}</a><br>"
     @index += 1
     #next
-    @next_chapter = if doc.css('div.entry-content p a').last.content.to_s.include?("Next")
-    doc.css('div.entry-content p a').last['href']
+    @next_chapter = if doc.css('link[rel="next"]').length > 0
+        doc.css('link[rel="next"]').last['href']
     else
       false
     end
